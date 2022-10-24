@@ -131,7 +131,7 @@ class MainFragment : Fragment() {
             val maxMinTemp = "${it.maxTemp}ºC / ${it.minTemp}ºC"
             tvData.text = it.time
             tvCity.text = it.city
-            tvCurrentTemp.text = it.currentTemp.ifEmpty { maxMinTemp }
+            tvCurrentTemp.text = "${ it.currentTemp.ifEmpty { maxMinTemp } }ºC"
             tvCondition.text = it.condition
             tvMaxMin.text = if(it.currentTemp.isEmpty()) "" else maxMinTemp
             Picasso.get().load("https:" + it.imageUrl).into(imWeather)
@@ -158,7 +158,7 @@ class MainFragment : Fragment() {
                 "&q=" +
                 city +
                 "&days=" +
-                "3" +
+                "5" +
                 "&aqi=no&alerts=no"
         val queue = Volley.newRequestQueue(context)
         val request = StringRequest(
@@ -211,7 +211,7 @@ class MainFragment : Fragment() {
             mainObject.getJSONObject("current").getString("last_updated"),
             mainObject.getJSONObject("current")
                 .getJSONObject("condition").getString("text"),
-            mainObject.getJSONObject("current").getString("temp_c"),
+            mainObject.getJSONObject("current").getString("temp_c").toFloat().toInt().toString(),
             weatherItem.maxTemp,
             weatherItem.minTemp,
             mainObject.getJSONObject("current")
